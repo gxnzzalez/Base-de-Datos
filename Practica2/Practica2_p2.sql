@@ -3,17 +3,42 @@
 
 -- 1. Muestra el nombre y el precio de aquellos artículos que sean, exactamente, elartículo más caro de su respectivo fabricante.
 
+SELECT nombre, precio
+FROM articulos a
+WHERE precio = (
+    SELECT MAX(precio)
+    FROM articulos
+    WHERE fabricante_id = a.fabricante_id)
 
 -- 2. Muestra el nombre de los fabricantes que no tienen ningún artículo con un precio inferior o igual a la media general de precios de toda la tienda.
 
+SELECT nombre
+FROM fabricantes
+WHERE id IN (SELECT fabricante_id
+			FROM articulos
+            WHERE precio > (SELECT AVG(precio)
+							FROM articulos))
 
--- 3. Muestra la descripción y el coste de aquellas reparaciones cuyo coste sea
--- estrictamente superior a la media de las reparaciones realizadas por su propio
--- técnico.
--- 4. Muestra el identificador y la especialidad de los técnicos cuya suma total del coste de
--- las reparaciones que han realizado supere el doble de su propio salario.
--- 5. Muestra el nombre del fabricante (o fabricantes) que posee el mayor número de
--- artículos registrados en la base de datos.
+-- 3. Muestra la descripción y el coste de aquellas reparaciones cuyo coste sea estrictamente superior a la media de las reparaciones realizadas por su propio técnico.
+
+SELECT descripcion_averia, coste_reparacion
+FROM reparaciones
+WHERE coste_reparacion > (SELECT AVG(coste_reparacion) 
+					        FROM reparaciones
+                            ORDER BY tecnico_id)
+
+-- 4. Muestra el identificador y la especialidad de los técnicos cuya suma total del coste de las reparaciones que han realizado supere el doble de su propio salario.
+
+SELECT id, especialidad, salario
+FROM tecnicos
+WHERE salario*2 < (SELECT SUM(coste_reparacion)
+				FROM reparaciones
+				ORDER BY tecnico_id)
+
+-- 5. Muestra el nombre del fabricante (o fabricantes) que posee el mayor número de  artículos registrados en la base de datos.
+
+
+
 -- 6. Muestra el nombre de los técnicos que han realizado alguna reparación, pero que
 -- nunca han realizado ninguna reparación cuyo coste haya superado los 100.00 euros.
 
