@@ -37,27 +37,63 @@ WHERE salario*2 < (SELECT SUM(coste_reparacion)
 
 -- 5. Muestra el nombre del fabricante (o fabricantes) que posee el mayor número de  artículos registrados en la base de datos.
 
-
+                    
+SELECT nombre
+FROM fabricantes
+WHERE id IN (SELECT fabricante_id
+             FROM articulos
+             GROUP BY fabricante_id
+             HAVING COUNT(*) = (SELECT MAX(Articulitos)
+                                FROM (SELECT COUNT(*) AS Articulitos
+                                      FROM articulos
+                                      GROUP BY fabricante_id) AS Articulos_totales))
 
 -- 6. Muestra el nombre de los técnicos que han realizado alguna reparación, pero que nunca han realizado ninguna reparación cuyo coste haya superado los 100.00 euros.
 
-
+SELECT nombre
+FROM tecnicos
+WHERE id IN (SELECT tecnico_id
+			FROM reparaciones
+			WHERE coste_reparacion < 100.00)
 
 -- 7. Muestra el nombre y el salario de los técnicos cuyo salario sea inferior a la media salarial de su propia especialidad.
 
-
+SELECT nombre, salario
+FROM tecnicos t
+WHERE salario < (SELECT AVG(salario)
+				FROM tecnicos
+                 WHERE especialidad = t.especialidad)
 
 -- 8. Muestra el nombre de los fabricantes cuyo país coincide con el país del fabricante que produce el artículo más caro de toda la tienda.
 
-
+ SELECT nombre
+ FROM fabricantes
+ WHERE pais = (SELECT pais
+			   FROM fabricantes
+               WHERE id = (SELECT fabricante_id
+							   FROM articulos
+                               WHERE precio = (SELECT MAX(precio)
+											   FROM articulos)))
 
 -- 9. Muestra el nombre y el precio del artículo más barato de entre todos los fabricantes  que son originarios de 'Estados Unidos'.
 
-
+SELECT nombre, precio
+FROM articulos
+WHERE precio = (SELECT MIN(precio)
+				FROM articulos
+                WHERE fabricante_id IN (SELECT id
+									   FROM fabricantes
+                                       WHERE LOWER(pais) = 'estados unidos'))
 
 -- 10. Muestra el identificador del técnico (tecnico_id) que ha acumulado el mayor  coste total en reparaciones.
 
-
+SELECT tecnico_id
+FROM reparaciones
+GROUP BY tecnico_id
+HAVING SUM(coste_reparacion) = (SELECT MAX(total_coste)
+								FROM (SELECT SUM(coste_reparacion) AS total_coste
+									  FROM reparaciones
+                                      GROUP BY tecnico_id) AS totales)
 
 -- Batería de Consultas 2:
 -- Para esta batería de preguntas está permitido utilizar JOIN y todo lo estudiado.
