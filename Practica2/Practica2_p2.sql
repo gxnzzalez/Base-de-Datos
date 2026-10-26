@@ -39,17 +39,26 @@ WHERE salario*2 < (SELECT SUM(coste_reparacion)
 
 
 
--- 6. Muestra el nombre de los técnicos que han realizado alguna reparación, pero que
--- nunca han realizado ninguna reparación cuyo coste haya superado los 100.00 euros.
+-- 6. Muestra el nombre de los técnicos que han realizado alguna reparación, pero que nunca han realizado ninguna reparación cuyo coste haya superado los 100.00 euros.
 
--- 7. Muestra el nombre y el salario de los técnicos cuyo salario sea inferior a la media
--- salarial de su propia especialidad.
--- 8. Muestra el nombre de los fabricantes cuyo país coincide con el país del fabricante
--- que produce el artículo más caro de toda la tienda.
--- 9. Muestra el nombre y el precio del artículo más barato de entre todos los fabricantes
--- que son originarios de 'Estados Unidos'.
--- 10. Muestra el identificador del técnico (tecnico_id) que ha acumulado el mayor
--- coste total en reparaciones.
+
+
+-- 7. Muestra el nombre y el salario de los técnicos cuyo salario sea inferior a la media salarial de su propia especialidad.
+
+
+
+-- 8. Muestra el nombre de los fabricantes cuyo país coincide con el país del fabricante que produce el artículo más caro de toda la tienda.
+
+
+
+-- 9. Muestra el nombre y el precio del artículo más barato de entre todos los fabricantes  que son originarios de 'Estados Unidos'.
+
+
+
+-- 10. Muestra el identificador del técnico (tecnico_id) que ha acumulado el mayor  coste total en reparaciones.
+
+
+
 -- Batería de Consultas 2:
 -- Para esta batería de preguntas está permitido utilizar JOIN y todo lo estudiado.
 
