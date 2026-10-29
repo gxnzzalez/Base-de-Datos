@@ -22,10 +22,10 @@ WHERE id IN (SELECT fabricante_id
 -- 3. Muestra la descripción y el coste de aquellas reparaciones cuyo coste sea estrictamente superior a la media de las reparaciones realizadas por su propio técnico.
 
 SELECT descripcion_averia, coste_reparacion
-FROM reparaciones
+FROM reparaciones r
 WHERE coste_reparacion > (SELECT AVG(coste_reparacion) 
 					        FROM reparaciones
-                            ORDER BY tecnico_id)
+                            WHERE r.tecnico_id=tecnico_id)
 
 -- 4. Muestra el identificador y la especialidad de los técnicos cuya suma total del coste de las reparaciones que han realizado supere el doble de su propio salario.
 
@@ -52,9 +52,9 @@ WHERE id IN (SELECT fabricante_id
 
 SELECT nombre
 FROM tecnicos
-WHERE id IN (SELECT tecnico_id
+WHERE id NOT IN (SELECT tecnico_id
 			FROM reparaciones
-			WHERE coste_reparacion < 100.00)
+			WHERE coste_reparacion > 100.00)
 
 -- 7. Muestra el nombre y el salario de los técnicos cuyo salario sea inferior a la media salarial de su propia especialidad.
 
