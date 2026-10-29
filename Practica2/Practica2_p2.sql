@@ -25,7 +25,8 @@ SELECT descripcion_averia, coste_reparacion
 FROM reparaciones r
 WHERE coste_reparacion > (SELECT AVG(coste_reparacion) 
 					        FROM reparaciones
-                            WHERE r.tecnico_id=tecnico_id)
+                            WHERE r.tecnico_id=tecnico_id
+                            GROUP BY tecnico_id)
 
 -- 4. Muestra el identificador y la especialidad de los técnicos cuya suma total del coste de las reparaciones que han realizado supere el doble de su propio salario.
 
