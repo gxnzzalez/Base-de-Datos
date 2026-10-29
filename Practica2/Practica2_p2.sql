@@ -30,10 +30,11 @@ WHERE coste_reparacion > (SELECT AVG(coste_reparacion)
 -- 4. Muestra el identificador y la especialidad de los técnicos cuya suma total del coste de las reparaciones que han realizado supere el doble de su propio salario.
 
 SELECT id, especialidad, salario
-FROM tecnicos
+FROM tecnicos t
 WHERE salario*2 < (SELECT SUM(coste_reparacion)
-				FROM reparaciones
-				ORDER BY tecnico_id)
+				FROM reparaciones r
+				WHERE t.id = r.tecnico_id
+                GROUP BY r.tecnico_id
 
 -- 5. Muestra el nombre del fabricante (o fabricantes) que posee el mayor número de  artículos registrados en la base de datos.
 
